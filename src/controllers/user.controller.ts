@@ -1,5 +1,6 @@
 import { Context, helpers } from '../deps.ts'
 import User from '../models/user.model.ts'
+import { bcrypt } from '../deps.ts'
 
 const getUsers = async (ctx: Context) => {
   const queries = helpers.getQuery(ctx, { mergeParams: true })
@@ -55,8 +56,9 @@ const createUser = async (ctx: Context) => {
       ctx.response.body = { 'message': 'User already exists' }
       return
     }
-
-    const newUser = await User.create({ 'email': email, 'password': password })
+    const salt = await bcrypt.genSalt(10)
+    const passwordHash = await bcrypt.hash(password, salt)
+    const newUser = await User.create({ 'email': email, 'password': passwordHash })
     ctx.response.status = 201
     ctx.response.body = { 'message': 'User created', 'userId': newUser.id }
     return
