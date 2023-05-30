@@ -13,3 +13,4 @@ export {
   Model,
   PostgresConnector,
 } from 'https://deno.land/x/denodb/mod.ts'
+export * as bcrypt from 'https://deno.land/x/bcrypt@v0.4.1/mod.ts'
