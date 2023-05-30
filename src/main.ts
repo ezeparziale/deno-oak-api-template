@@ -1,6 +1,9 @@
 import { Application } from './deps.ts'
 import { PORT } from './configs/general.config.ts'
-import router from './routes/user.router.ts'
+import routerUser from './routes/user.router.ts'
+import routerPost from './routes/post.router.ts'
+import routerAuth from './routes/auth.router.ts'
+
 import initDb from './db/init.db.ts'
 
 const app = new Application()
@@ -21,9 +24,11 @@ app.use(async (ctx, next) => {
 })
 
 // Routes
-app.use(router.routes())
+app.use(routerUser.routes())
+app.use(routerPost.routes())
+app.use(routerAuth.routes())
 
-app.use(router.allowedMethods())
+// app.use(router.allowedMethods())
 
 // Database
 await initDb()
